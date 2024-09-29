@@ -29,6 +29,12 @@
             color: black;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .button {
             padding: 10px 20px;
             margin: 0 10px;
@@ -111,8 +117,10 @@
 <body>
     <div id="container">
         <h1 id="question">be my girlfriend?</h1>
-        <button id="yesBtn" class="button">YES!</button>
-        <button id="noBtn" class="button">No.</button>
+        <div class="button-container">
+            <button id="yesBtn" class="button">YES!</button>
+            <button id="noBtn" class="button">No.</button>
+        </div>
     </div>
     <div class="loader"></div>
     <div id="gifContainer" style="display: none;">
