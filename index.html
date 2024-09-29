@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Girlfriend?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Lexend', sans-serif;
+            background-color: white;
+        }
+
+        #container, #seriousNote, #editableContent, #gifContainer, #secondMessage, #finalMessage {
+            text-align: center;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        h1, p {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background: none;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn, #continueBtn {
+            border-color: #4a6741;
+            color: #4a6741;
+        }
+
+        #noBtn {
+            border-color: #9c0000;
+            color: #9c0000;
+        }
+
+        .button.small {
+            font-size: 0.8em;
+            padding: 5px 10px;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #bunnyGif {
+            max-width: 200px;
+            margin: 20px auto;
+        }
+
+        #gifCaption {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: black;
+        }
+
+        #editableText, #secondMessage p {
+            font-size: 1.2em;
+            color: black;
+            line-height: 1.4;
+        }
+
+        #finalMessage p {
+            font-size: 1.5em;
+            color: black;
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 id="question">be my girlfriend?</h1>
+        <button id="yesBtn" class="button">YES!</button>
+        <button id="noBtn" class="button">No.</button>
+    </div>
+    <div class="loader"></div>
+    <div id="gifContainer" style="display: none;">
+        <img id="bunnyGif" src="https://media.tenor.com/tXypRriFDUkAAAAi/cute-bunny-rabbit.gif">
+        <p id="gifCaption">(u nd me. im the cuter one tho)</p>
+    </div>
+    <div id="seriousNote" style="display: none;">
+        <p>on a serious note, i hv smth to tell u</p>
+        <button id="continueBtn" class="button">continue</button>
+    </div>
+    <div id="editableContent" style="display: none;">
+        <p id="editableText">im not gonna lie, im kinda confused abt this shit, if i did smth wrong or smth. i wanna know, fuck, i badly want to know what i did wrong, but im not gonna question anything unless ure comfortable w telling me. im just taken aback ig. i mean, it hasnt been that long yet since we got tgt again and now were done again lmao. icl, i thought this time well be tgt for a long time but ig thats js wishful thinking on my part. tbh, i still want u, im still in love w u, no matter how corny that sounds lol. if this is abt u getting grounded or smth like that, id always wait for u, no matter how long. i mean, i alrdy waited for almost what, a month? three weeks? two weeks? a week? i cld wait for however long it takes.</p>
+        <button id="nextBtn" class="button small">next</button>
+    </div>
+    <div id="secondMessage" style="display: none;">
+        <p>i miss u love. rlly, truly miss u. nd i fucking love u so much. but yh, anw thats all, ig we can go back to not talking to each other LMFAOAOAOOO. but if theres still a chance, even just a small chance, for the two of us to be tgt again? no matter how long i hv to wait, js tell me and ill take it. ill even watch peppa pig w u, because ure srsly the best thing that has ever happened to me. but if theres nth, then i wish u all the best, rlly. take care of urself, eat all ur meals daily and dont skip any, stay hydrated, do well on ur acads, dont make ur mom too mad often or u might get ur phone taken for a year lol. nd ik we havent talked abt it for a long time, but if ure still having those negative thoughts or smth abt hurting urself, try to restrain urself. if ure clean, keep it up. im proud of u, srsly. goodluck on ur concert btw, i know ull do great.</p>
+        <button id="doneBtn" class="button small">done</button>
+    </div>
+    <div id="finalMessage" style="display: none;">
+        <p>thanks for listening, love. u can go exit this now</p>
+    </div>
+
+    <script>
+        let noCount = 0;
+        const container = document.getElementById('container');
+        const question = document.getElementById('question');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const loader = document.querySelector('.loader');
+        const gifContainer = document.getElementById('gifContainer');
+        const seriousNote = document.getElementById('seriousNote');
+        const continueBtn = document.getElementById('continueBtn');
+        const editableContent = document.getElementById('editableContent');
+        const nextBtn = document.getElementById('nextBtn');
+        const secondMessage = document.getElementById('secondMessage');
+        const doneBtn = document.getElementById('doneBtn');
+        const finalMessage = document.getElementById('finalMessage');
+
+        noBtn.addEventListener('click', function() {
+            noCount++;
+            container.style.display = 'none';
+            loader.style.display = 'block';
+
+            setTimeout(() => {
+                container.style.display = 'block';
+                loader.style.display = 'none';
+
+                yesBtn.style.transform = `scale(${1 + noCount * 0.1})`;
+                
+                if (noCount === 1) {
+                    question.textContent = 'please, be my girlfriend?';
+                } else if (noCount === 2) {
+                    question.textContent = 'pleaseeeee?';
+                } else if (noCount >= 3) {
+                    question.textContent = 'please, leilah? ☹️';
+                    yesBtn.textContent = 'yes, fine.';
+                    yesBtn.style.transform = 'scale(1.5)';
+                    noBtn.style.display = 'none';
+                }
+
+                if (noCount < 3) {
+                    noBtn.style.transform = `scale(${1 - noCount * 0.1})`;
+                }
+            }, 5000);
+        });
+
+        yesBtn.addEventListener('click', function() {
+            container.style.display = 'none';
+            gifContainer.style.display = 'block';
+            
+            createConfetti();
+            
+            setTimeout(() => {
+                stopConfetti();
+                showLoader();
+            }, 5000);
+        });
+
+        continueBtn.addEventListener('click', function() {
+            seriousNote.style.display = 'none';
+            editableContent.style.display = 'block';
+        });
+
+        nextBtn.addEventListener('click', function() {
+            editableContent.style.display = 'none';
+            secondMessage.style.display = 'block';
+        });
+
+        doneBtn.addEventListener('click', function() {
+            secondMessage.style.display = 'none';
+            finalMessage.style.display = 'block';
+        });
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(confetti);
+            }
+        }
+
+        function stopConfetti() {
+            const confetti = document.querySelectorAll('.confetti');
+            confetti.forEach(c => c.remove());
+        }
+
+        function showLoader() {
+            gifContainer.style.display = 'none';
+            loader.style.display = 'block';
+
+            setTimeout(() => {
+                loader.style.display = 'none';
+                seriousNote.style.display = 'block';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
